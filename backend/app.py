@@ -7,11 +7,12 @@ FRONTEND_DIR = os.path.join(BASE_DIR, '../frontend')
 
 app = Flask(__name__, static_folder=FRONTEND_DIR)
 
+# Startseite
 @app.route('/')
 def index():
     return send_from_directory(app.static_folder, 'index.html')
 
-# Optional: Alle statischen Dateien wie JS, CSS, etc.
+# Alle anderen statischen Dateien (z. B. JS, CSS, PNG)
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory(app.static_folder, path)
