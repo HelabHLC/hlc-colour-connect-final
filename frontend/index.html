@@ -3,26 +3,23 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>HLC Colour Connect – Extended</title>
+    <title>HLC Connect – DeltaE Matching</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header><h1>🎨 HLC Colour Atlas Connect – vNext</h1></header>
+    <header><h1>🎯 HLC Colour Match mit DeltaE</h1></header>
 
     <section id="controls">
-        <label for="iccSelect">ICC-Profil:</label>
-        <select id="iccSelect"></select>
-
         <input type="file" id="imageUpload" accept="image/*">
-        <button id="extractBtn">🎯 Farben extrahieren</button>
-        <button id="exportBtn">💾 Palette exportieren</button>
+        <label for="deltaSlider">DeltaE Schwelle: <span id="deltaVal">5.0</span></label>
+        <input type="range" min="1" max="20" step="0.5" value="5" id="deltaSlider">
+        <button id="extractBtn">🔍 Farben analysieren</button>
     </section>
 
     <main>
         <div id="colorGrid"></div>
-
         <aside id="infoPanel">
-            <h2>Farbinfo</h2>
+            <h2>Info</h2>
             <div id="colorPreview"></div>
             <p><strong>Name:</strong> <span id="infoName"></span></p>
             <p><strong>HEX:</strong> <span id="infoHex"></span></p>

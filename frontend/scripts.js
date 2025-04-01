@@ -1,46 +1,27 @@
 
-let palette = [];
-
 document.addEventListener('DOMContentLoaded', () => {
-    const select = document.getElementById('iccSelect');
-    const grid = document.getElementById('colorGrid');
-    const exportBtn = document.getElementById('exportBtn');
+    const deltaSlider = document.getElementById('deltaSlider');
+    const deltaVal = document.getElementById('deltaVal');
     const extractBtn = document.getElementById('extractBtn');
     const imageUpload = document.getElementById('imageUpload');
+    const grid = document.getElementById('colorGrid');
 
     const infoName = document.getElementById('infoName');
     const infoHex = document.getElementById('infoHex');
     const infoLab = document.getElementById('infoLab');
     const preview = document.getElementById('colorPreview');
 
-    fetch('/api/icc-profiles')
-        .then(res => res.json())
-        .then(data => {
-            data.forEach(profile => {
-                const opt = document.createElement('option');
-                opt.value = profile;
-                opt.textContent = profile;
-                select.appendChild(opt);
-            });
-        });
-
-    exportBtn.addEventListener('click', () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(palette, null, 2));
-        const dl = document.createElement('a');
-        dl.setAttribute("href", dataStr);
-        dl.setAttribute("download", "palette.json");
-        dl.click();
+    deltaSlider.addEventListener('input', () => {
+        deltaVal.textContent = deltaSlider.value;
     });
 
     extractBtn.addEventListener('click', () => {
         const file = imageUpload.files[0];
-        if (!file) return alert("Bitte ein Bild wählen.");
+        if (!file) return alert("Bitte ein Bild hochladen.");
 
         const img = new Image();
         const reader = new FileReader();
-        reader.onload = e => {
-            img.src = e.target.result;
-        };
+        reader.onload = e => img.src = e.target.result;
         reader.readAsDataURL(file);
 
         img.onload = () => {
@@ -60,14 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const topColors = Object.entries(colors)
                 .sort((a,b) => b[1]-a[1])
-                .slice(0, 6)
+                .slice(0, 5)
                 .map(entry => entry[0]);
 
-            fetch(`/api/match?colors=${topColors.join(',')}`)
+            fetch(`/api/match?colors=${topColors.join(',')}&delta=${deltaSlider.value}`)
                 .then(res => res.json())
                 .then(matches => {
                     grid.innerHTML = '';
-                    palette = [];
                     matches.forEach(c => {
                         const div = document.createElement('div');
                         div.className = 'colorBox';
@@ -79,16 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             infoHex.textContent = c.hex;
                             infoLab.textContent = c.lab.join(', ');
                             preview.style.background = c.hex;
-                        });
-
-                        div.addEventListener('click', (e) => {
-                            div.classList.toggle("selected");
-                            palette.push(c);
-                        });
-
-                        div.addEventListener('contextmenu', (e) => {
-                            e.preventDefault();
-                            alert(`Aktionen für ${c.name}`);
                         });
 
                         grid.appendChild(div);
