@@ -1,0 +1,4 @@
+
+body { font-family: sans-serif; }
+#colorGrid { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 20px; }
+#colorGrid div { border: 1px solid #ccc; }
