@@ -1,1 +1,1 @@
-console.log('Colour Picker loaded');
+// JS-Logik zur Farbauswahl + DeltaE-Matching-API
