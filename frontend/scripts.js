@@ -1,1 +1,1 @@
-// JS-Logik zur Farbauswahl + DeltaE-Matching-API
+// JS Dummy
