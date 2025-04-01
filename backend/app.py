@@ -1,9 +1,18 @@
-
+from flask import Flask, send_from_directory, jsonify, request
 import os
-import json
-from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, '../frontend')
+
+app = Flask(__name__, static_folder=FRONTEND_DIR)
+
+@app.route('/')
+def index():
+    return send_from_directory(FRONTEND_DIR, 'index.html')
+
+@app.route('/<path:path>')
+def static_proxy(path):
+    return send_from_directory(FRONTEND_DIR, path)
 
 @app.route('/api/match')
 def match_colors():
