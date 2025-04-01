@@ -1,1 +1,25 @@
-<html><body>HLC Colour Match UI</body></html>
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>HLC Colour Match UI</title>
+</head>
+<body>
+    <h1>🎯 HLC Colour Match</h1>
+    <input type="file" id="imageUpload" accept="image/*"><br>
+    DeltaE Schwelle: <input type="number" id="delta" value="5.0" step="0.1"><br>
+    <button onclick="analyze()">🔍 Farben analysieren</button>
+    <div id="result">
+        <p><strong>Info</strong></p>
+        <p>Name: <span id="name"></span></p>
+        <p>HEX: <span id="hex"></span></p>
+        <p>LAB: <span id="lab"></span></p>
+    </div>
+    <script>
+        function analyze() {
+            alert("Analyse-Funktion wird später aktiviert.");
+        }
+    </script>
+</body>
+</html>
