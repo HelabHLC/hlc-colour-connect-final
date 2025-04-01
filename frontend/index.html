@@ -1,1 +1,24 @@
-<!DOCTYPE html><html><head><title>HLC Picker</title></head><body>HLC UI</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🎯 HLC Colour Match</title>
+</head>
+<body>
+    <h1>🎯 HLC Colour Picker</h1>
+    <input type="color" id="colorPicker" />
+    <button onclick="analyzeColor()">🔍 Farbe analysieren</button>
+    <pre id="result"></pre>
+
+    <script>
+        function analyzeColor() {
+            const color = document.getElementById('colorPicker').value;
+            fetch(`/api/match?hex=${color}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                });
+        }
+    </script>
+</body>
+</html>
