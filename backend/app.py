@@ -1,27 +1,23 @@
-
-from flask import Flask, jsonify, request
-import json
+from flask import Flask, send_from_directory
 import os
 
-app = Flask(__name__)
+# Verzeichnis-Konfiguration
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(BASE_DIR, '../frontend')
 
-basedir = os.path.dirname(__file__)
-json_path = os.path.join(basedir, "dummy_colors.json")
+app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path='')
 
-with open(json_path, "r") as f:
-    color_db = json.load(f)
+# Startseite: index.html
+@app.route('/')
+def index():
+    return send_from_directory(FRONTEND_DIR, 'index.html')
 
-@app.route("/api/match")
-def match_colors():
-    hex_colors = request.args.get("colors", "").split(",")
-    delta = float(request.args.get("delta", 5.0))
-    result = []
+# Alle anderen statischen Dateien (CSS, JS, PNG, ...)
+@app.route('/<path:path>')
+def static_files(path):
+    return send_from_directory(FRONTEND_DIR, path)
 
-    for hex_code in hex_colors:
-        result.extend(color_db)
-
-    return jsonify(result)
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+# App starten
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
