@@ -32,7 +32,8 @@ def filter_colors():
         with open(CSV_PATH, encoding='utf-8') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                cmyk_value = row.get(f"CMYK_{icc}", "").strip()
+                cmyk_key = f"CMYK_{icc}"
+                cmyk_value = row.get(cmyk_key, "").strip()
                 if cmyk_value:
                     filtered_colors.append({
                         "name": row.get("Name"),
@@ -40,7 +41,7 @@ def filter_colors():
                         "lab": [row.get("L"), row.get("A"), row.get("B")]
                     })
     return jsonify(filtered_colors)
-    
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
