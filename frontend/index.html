@@ -1,23 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>🎯 HLC Colour Match</title>
+    <title>HLC Colour Match</title>
 </head>
 <body>
     <h1>🎯 HLC Colour Match</h1>
-    <input type="color" id="colorPicker" value="#F6EEF8">
-    <button onclick="matchColor()">🔍 Farbe analysieren</button>
-    <pre id="result"></pre>
-    <script>
-        function matchColor() {
-            const color = document.getElementById('colorPicker').value;
-            fetch(`/api/match?hex=${color}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-                });
-        }
-    </script>
+    <p>Bitte eine Farbe wählen oder ein Bild hochladen.</p>
 </body>
 </html>
