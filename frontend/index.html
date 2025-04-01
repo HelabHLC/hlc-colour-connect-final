@@ -1,15 +1,32 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>HLC ICC Filter</title>
+    <title>HLC Colour Connect</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>ICC Farbfilter</h1>
-    <label for="iccSelect">ICC-Profil:</label>
-    <select id="iccSelect"></select>
-    <div id="colorGrid"></div>
+    <header><h1>🎨 HLC Colour Atlas Connect</h1></header>
+
+    <section id="controls">
+        <label for="iccSelect">ICC-Profil:</label>
+        <select id="iccSelect"></select>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button id="exportBtn">Exportiere Palette</button>
+    </section>
+
+    <main>
+        <div id="colorGrid"></div>
+        <aside id="infoPanel">
+            <h2>Farbinfo</h2>
+            <div id="colorPreview"></div>
+            <p><strong>Name:</strong> <span id="infoName"></span></p>
+            <p><strong>HEX:</strong> <span id="infoHex"></span></p>
+            <p><strong>LAB:</strong> <span id="infoLab"></span></p>
+        </aside>
+    </main>
+
     <script src="scripts.js"></script>
 </body>
 </html>
