@@ -2,48 +2,58 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>🎯 HLC Colour Picker</title>
+  <meta charset="UTF-8" />
+  <title>🎨 HLC Colour Picker</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; }
+    #canvas { border: 1px solid #ccc; margin-top: 1em; cursor: crosshair; }
+    #info { margin-top: 1em; }
+  </style>
 </head>
 <body>
-  <h1>🎨 HLC Colour Picker</h1>
-  <input type="file" id="upload" accept="image/*"><br><br>
-  <canvas id="canvas" style="border:1px solid black;"></canvas>
-  <p>Klick ins Bild – wir analysieren die Farbe</p>
+  <h2>🎨 HLC Colour Picker</h2>
+  <input type="file" id="upload" accept="image/*" />
+  <canvas id="canvas"></canvas>
   <div id="info">
-    <p><strong>Name:</strong> <span id="name"></span></p>
-    <p><strong>HEX:</strong> <span id="hex"></span></p>
-    <p><strong>LAB:</strong> <span id="lab"></span></p>
+    <p><strong>Name:</strong> <span id="name">-</span></p>
+    <p><strong>HEX:</strong> <span id="hex">-</span></p>
+    <p><strong>RGB:</strong> <span id="rgb">-</span></p>
   </div>
   <script>
     const upload = document.getElementById('upload');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    upload.addEventListener('change', function(e) {
+    upload.addEventListener('change', (e) => {
       const file = e.target.files[0];
-      const img = new Image();
-      img.onload = function() {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = event.target.result;
       };
-      img.src = URL.createObjectURL(file);
+      reader.readAsDataURL(file);
     });
 
-    canvas.addEventListener('click', function(e) {
+    canvas.addEventListener('click', (e) => {
       const x = e.offsetX;
       const y = e.offsetY;
       const pixel = ctx.getImageData(x, y, 1, 1).data;
       const rgb = `${pixel[0]},${pixel[1]},${pixel[2]}`;
+      document.getElementById('rgb').textContent = rgb;
+
       fetch(`/api/match_rgb?rgb=${rgb}`)
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-          document.getElementById('name').textContent = data.name || '–';
-          document.getElementById('hex').textContent = data.hex || '–';
-          document.getElementById('lab').textContent = data.lab || '–';
+          document.getElementById('name').textContent = data.name;
+          document.getElementById('hex').textContent = data.hex;
         });
     });
   </script>
 </body>
 </html>
+    
