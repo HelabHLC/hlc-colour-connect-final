@@ -1,1 +1,0 @@
-Hier kannst du deine ICC-Profile ablegen.
