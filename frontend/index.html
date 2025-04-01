@@ -3,21 +3,24 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>HLC Colour Connect</title>
+    <title>HLC Colour Connect – Extended</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header><h1>🎨 HLC Colour Atlas Connect</h1></header>
+    <header><h1>🎨 HLC Colour Atlas Connect – vNext</h1></header>
 
     <section id="controls">
         <label for="iccSelect">ICC-Profil:</label>
         <select id="iccSelect"></select>
+
         <input type="file" id="imageUpload" accept="image/*">
-        <button id="exportBtn">Exportiere Palette</button>
+        <button id="extractBtn">🎯 Farben extrahieren</button>
+        <button id="exportBtn">💾 Palette exportieren</button>
     </section>
 
     <main>
         <div id="colorGrid"></div>
+
         <aside id="infoPanel">
             <h2>Farbinfo</h2>
             <div id="colorPreview"></div>
@@ -27,6 +30,7 @@
         </aside>
     </main>
 
+    <canvas id="hiddenCanvas" style="display:none;"></canvas>
     <script src="scripts.js"></script>
 </body>
 </html>

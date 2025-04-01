@@ -33,11 +33,14 @@ main {
     border: 1px solid #ccc;
     cursor: pointer;
 }
+.colorBox.selected {
+    outline: 3px solid #2196F3;
+}
 .colorBox:hover {
     outline: 2px solid #000;
 }
 #infoPanel {
-    width: 200px;
+    width: 220px;
     padding: 10px;
     background: #fafafa;
     border-left: 1px solid #ddd;
