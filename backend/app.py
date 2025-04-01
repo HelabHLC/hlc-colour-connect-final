@@ -20,5 +20,9 @@ def match_colors():
 
     return jsonify(result)
 
-if __name__ == "__main__":
-    app.run(debug=True)
+import os
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 5000))  # <- Das hier ist wichtig!
+    app.run(host='0.0.0.0', port=port)
+
