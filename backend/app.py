@@ -1,13 +1,13 @@
 
 import os
 import json
-from flask import Flask, request, jsonify
+import csv
+from flask import Flask, request, jsonify, send_from_directory
 from colormath.color_objects import LabColor, sRGBColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
-import csv
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
 def hex_to_lab(hex_code):
     hex_code = hex_code.strip().lstrip("#")
@@ -29,6 +29,10 @@ def load_hlc_data():
     return hlc_data
 
 hlc_database = load_hlc_data()
+
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route("/api/match")
 def match():

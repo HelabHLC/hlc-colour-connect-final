@@ -1,31 +1,24 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
+    <meta charset="UTF-8">
     <title>HLC Colour Match</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; }
-        input, button { margin: 10px 0; }
-        #colorPreview { width: 50px; height: 50px; display: inline-block; vertical-align: middle; border: 1px solid #000; }
-    </style>
 </head>
 <body>
     <h1>🎯 HLC Colour Match</h1>
-    <p>Bitte eine Farbe eingeben:</p>
-    <input type="color" id="colorInput" value="#ffffff">
-    <button onclick="match()">🔍 Analysieren</button>
-    <div>
-        <span id="colorPreview"></span>
-        <div id="result"></div>
-    </div>
+    <input type="color" id="colorPicker">
+    <button onclick="matchColor()">Match!</button>
+    <p id="result"></p>
     <script>
-        async function match() {
-            const color = document.getElementById("colorInput").value;
-            document.getElementById("colorPreview").style.backgroundColor = color;
-            const response = await fetch(`/api/match?color=${color}`);
-            const data = await response.json();
-            document.getElementById("result").innerText = 
-                `Name: ${data.name}, HEX: ${data.match}, DeltaE: ${data.deltaE}`;
+        function matchColor() {
+            const hex = document.getElementById('colorPicker').value;
+            fetch(`/api/match?color=${hex}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('result').innerText = 
+                        `🎨 ${data.name} (${data.match}) - ΔE: ${data.deltaE}`;
+                });
         }
     </script>
 </body>
