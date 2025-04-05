@@ -1,1 +1,1 @@
-console.log('HLC Picker loaded');
+// JS
