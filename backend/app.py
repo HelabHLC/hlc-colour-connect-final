@@ -1,12 +1,13 @@
+
 import os
 import json
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from colormath.color_objects import LabColor, sRGBColor
 from colormath.color_conversions import convert_color
 from colormath.color_diff import delta_e_cie2000
 import csv
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../frontend', static_url_path='')
 
 def hex_to_lab(hex_code):
     hex_code = hex_code.strip().lstrip("#")
@@ -16,7 +17,7 @@ def hex_to_lab(hex_code):
 
 def load_hlc_data():
     hlc_data = []
-    with open("data/HLC-Colour-Atlas-XL_ColourValues_v1_03302025.csv", newline='', encoding="utf-8") as csvfile:
+    with open("data/HLC-Colour-Atlas-XL.csv", newline='', encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             lab = LabColor(float(row["L"]), float(row["A"]), float(row["B"]))
@@ -29,12 +30,16 @@ def load_hlc_data():
 
 hlc_database = load_hlc_data()
 
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, "index.html")
+
 @app.route("/api/match")
 def match():
     hex_code = request.args.get("color", "")
     threshold = float(request.args.get("delta", 5.0))
     input_lab = hex_to_lab(hex_code)
-    
+
     closest = None
     closest_distance = float("inf")
     for entry in hlc_database:
