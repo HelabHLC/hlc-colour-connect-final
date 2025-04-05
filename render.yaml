@@ -1,11 +1,9 @@
 services:
   - type: web
-    name: hlc-colour-match
+    name: hlc-colour-connect
     env: python
-    plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn backend.app:app
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn backend.app:app"
     envVars:
       - key: PORT
         value: 10000
-    autoDeploy: true
