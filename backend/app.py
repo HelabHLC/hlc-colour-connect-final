@@ -1,10 +1,7 @@
 import os
 from flask import Flask, send_from_directory
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.join(BASE_DIR, '..', 'frontend')
-
-app = Flask(__name__, static_folder=FRONTEND_DIR)
+app = Flask(__name__, static_folder='../frontend')
 
 @app.route('/')
 def index():
